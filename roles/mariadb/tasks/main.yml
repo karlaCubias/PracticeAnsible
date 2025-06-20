@@ -1,13 +1,27 @@
+- name: Install MariaBb server
+  ansible.builtin.apt:
+    name: mariadebe-server
+    state: present
+    update_cache: yes
 
-# tasks file for mariadb
-#SPDX-License-Identifier: MIT-0
----
-# tasks file for mariadb
-#Instalar un servidor web (Apache2).
-- name: Instalación de MariaDB
-  ansible.builtin.package:
-    name: "{{ item }}" #Nombre del paquete a instalar
-    state: present #Asegura que el paquete esté instalado
-  with_items: #Itera sobre una lista de paquetes
-    - mariadb-client #Cliente de base de datos MariaDB
-    - mariadb-server #Servidor de base de datos MariaDB
+- name: Iniciar y habilitar servicio
+  ansible.builtin.systemd:
+  name: mariadb
+  state: started
+  enable: yes
+
+- name: Iniciar y habilitar servicio
+  ansible.builtin.mysql_user:
+  name: root 
+  password: "{{wordpress_db_password}}"
+  host: localhost
+
+- name: configurar contraseña root para mariadb
+
+- name: 
+
+- name: Crear DB para wordpress
+
+- name: crear usuario de bbdd para wordpress
+
+
