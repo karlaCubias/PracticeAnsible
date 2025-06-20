@@ -1,11 +1,13 @@
-- hosts: all
 - name: Instalar webserver
   hosts: webserver
   become: yes
+
   gather_facts: yes
   roles:
     - role: apache2
     - role: php
+    - role: wordpress
+
 - name: Instalar database 
   hosts: database
   become: yes
@@ -19,4 +21,3 @@
   gather_facts: yes
   roles:
     - role: nginx
-    - role: users
