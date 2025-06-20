@@ -5,4 +5,5 @@
   gather_facts: yes
   roles:
     - role: apache2
-    - role: php
+    # - role: php
+    # - role: wordpress

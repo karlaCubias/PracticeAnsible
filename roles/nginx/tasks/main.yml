@@ -1,3 +1,35 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for nginx
+#SPDX-License-Identifier: MIT-0
+---
+#Instalar un servidor web (Nginx).
+- name: Instalación de Nginx
+  ansible.builtin.package:
+    name: "{{ item }}" #Nombre del paquete a instalar
+    state: present #Asegura que el paquete esté instalado
+  with_items: #Itera sobre una lista de paquetes
+    - nginx #Servidor web Nginx
+    - nginx-extras #Paquete adicional de Nginx con características extra
+
+#Recopilar información sobre el sistema y los servicios
+- name: Recopilar información sobre los servicios
+  ansible.builtin.service_facts: #Recopila información sobre los servicios
+
+#Copia el archivo de configuración hosts de Nginx al directorio correspondiente
+- name: Copiar archivo de configuración de hosts de Nginx
+  template: #Utiliza la plantilla para copiar el archivo de configuración
+    src: ../templates/nginx.conf.j2 #Ruta al archivo de configuración local
+    dest: /etc/nginx/nginx.conf #Ruta de destino en el servidor
+    owner: www-data #Propietario del archivo
+    group: www-data #Grupo del archivo
+    mode: '0644' #Permisos del archivo
+  notify: 
+    - Reiniciar Nginx #Notifica a la tarea de reinicio de Nginx si este archivo cambia
+
+#Asegurar de que el servicio de Nginx està corriendo y habilitado.
+- name: Asegurar que Nginx está corriendo
+  ansible.builtin.service:
+    name: nginx #Nombre del servicio a gestionar
+    state: started #Asegura que el servicio esté en ejecución
+    enabled: yes #Habilita el servicio para que se inicie al arrancar el sistema

@@ -1,0 +1,17 @@
+- name: Descargar Wordpress
+  ansible.builtin.get_url:
+    url: https://wordpress.org/latest.zip
+    dest: /tmp/wordpress.zip
+    mode: '0644'
+
+- name: Instalar Wordpress
+  ansible.builtin.unarchive:
+    src: /tmp/wordpress.zip
+    dest: /var/www/html
+    remote_src: true
+
+- name: Copiar configuración de Wordpress
+  ansible.builtin.template:
+    src: wordpress-conf.j2
+    dest: /var/www/html/wp-config.php
+    mode: '0644'
